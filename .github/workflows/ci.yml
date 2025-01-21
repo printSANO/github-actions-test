@@ -24,7 +24,8 @@ jobs:
             DOCKER_IMAGE_VERSION="0.${{ github.event.pull_request.number }}.${{ github.run_number }}"
           fi
           echo "Docker Image Tag: $DOCKER_IMAGE_TAG"
-          
+          echo DOCKER_IMAGE_VERSION=$DOCKER_IMAGE_VERSION >> $GITHUB_OUTPUT
+
       - name: login to docker
         uses: docker/login-action@v2
         with:
@@ -32,6 +33,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: build dockerfile
+        env:
+          DOCKER_IMAGE_VERSION: ${{ steps.docker_image_version.outputs.DOCKER_IMAGE_VERSION }}
         run: |
-          docker build -t ryanleetecheer/actions-test:? .
-          docker push ryanleetecheer/actions-test:?
+          docker build -t ryanleetecheer/actions-test:$DOCKER_IMAGE_VERSION .
+          docker push ryanleetecheer/actions-test:$DOCKER_IMAGE_VERSION
