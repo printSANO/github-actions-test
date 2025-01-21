@@ -23,7 +23,7 @@ jobs:
           else
             DOCKER_IMAGE_VERSION="0.${{ github.event.pull_request.number }}.${{ github.run_number }}"
           fi
-          echo "Docker Image Tag: $DOCKER_IMAGE_TAG"
+          echo "Docker Image Tag: $DOCKER_IMAGE_VERSION"
           echo DOCKER_IMAGE_VERSION=$DOCKER_IMAGE_VERSION >> $GITHUB_OUTPUT
 
       - name: login to docker
